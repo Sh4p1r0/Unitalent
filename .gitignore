@@ -3,3 +3,5 @@ target/
 .idea/
 *.log
 .vscode/
+**/db.properties
+db.properties

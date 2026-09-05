@@ -1,0 +1,12 @@
+# Configuracion de conexion a bases de datos
+# Copia este archivo como db.properties y completa tus credenciales
+
+postgres.host=localhost
+postgres.port=5432
+postgres.db=postgres
+postgres.user=postgres
+postgres.password=tu_contraseña_aqui
+postgres.ssl=false
+
+mongo.uri=mongodb://localhost:27017
+mongo.db=unitalent
