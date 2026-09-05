@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil | UniTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- TOP BAR (Mobile) -->
+  <div class="top-bar">
+    <div class="logo">
+      <div class="logo-icon">U</div>
+      UniTalent
+    </div>
+    <div class="top-bar-actions">
+      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
+        <span class="icon">🌓</span>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span>☰</span>
+      </button>
+    </div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="logo-icon">U</div>
+        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">🔎 Buscar ofertas</div>
+      <div class="nav-item" onclick="location.href='postulaciones.html'">📄 Mis postulaciones</div>
+      <div class="nav-item active" onclick="location.href='perfil.html'">👤 Mi perfil</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
+        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
+      </button>
+      <div class="user-chip">
+        <div class="avatar" data-user-initial>?</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>Cargando...</div>
+          <div class="user-role">Estudiante</div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
+        <span>Cerrar sesión</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile menu -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <main class="main-content">
+    <div class="page-header glass-panel">
+      <div>
+        <h1>Mi perfil profesional</h1>
+        <p>Mantén tu información actualizada para que las empresas te encuentren mejor.</p>
+      </div>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="panel" style="max-width:560px;">
+      <h2>Datos académicos</h2>
+      <form id="perfilForm">
+        <div class="field">
+          <label>Nombre</label>
+          <input type="text" id="nombre" disabled>
+        </div>
+        <div class="field">
+          <label>Correo</label>
+          <input type="email" id="correo" disabled>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Carrera</label>
+            <input type="text" id="carrera" placeholder="Ej. Ingeniería de Sistemas">
+          </div>
+          <div class="field">
+            <label>Ciclo</label>
+            <input type="number" id="ciclo" min="1" max="12">
+          </div>
+        </div>
+        <div class="field">
+          <label>Teléfono</label>
+          <input type="text" id="telefono" placeholder="Ej. +51 999 999 999">
+        </div>
+        <div class="field">
+          <label>CV (enlace o nombre de archivo)</label>
+          <input type="text" id="cv" placeholder="Ej. https://drive.google.com/... o cv_juan_perez.pdf">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </form>
+    </div>
+
+    <div class="panel" style="max-width:560px;">
+      <h2>Preferencias laborales</h2>
+      <p style="color:var(--texto-suave); font-size:0.85rem; margin-top:-8px;">
+        Esta información se guarda en MongoDB y ayuda a personalizar tu búsqueda.
+      </p>
+      <div class="field">
+        <label>Áreas de interés (separadas por coma)</label>
+        <input type="text" id="areas" placeholder="Ej. Desarrollo Web, Base de Datos">
+      </div>
+      <div class="field">
+        <label>Modalidad preferida</label>
+        <select id="modalidadPref">
+          <option value="">Sin preferencia</option>
+          <option value="Presencial">Presencial</option>
+          <option value="Remoto">Remoto</option>
+          <option value="Hibrido">Híbrido</option>
+        </select>
+      </div>
+      <button class="btn btn-outline" id="btnGuardarPrefs">Guardar preferencias</button>
+    </div>
+  </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/api.js"></script>
+<script>
+(async () => {
+  const session = await requireSession('ESTUDIANTE');
+  if (!session) return;
+
+  try {
+    const perfil = await Api.get('/UniTalent/api/perfil');
+    document.getElementById('nombre').value = perfil.nombre || '';
+    document.getElementById('correo').value = perfil.correo || '';
+    document.getElementById('carrera').value = perfil.carrera || '';
+    document.getElementById('ciclo').value = perfil.ciclo || '';
+    document.getElementById('telefono').value = perfil.telefono || '';
+    document.getElementById('cv').value = perfil.cv || '';
+  } catch (e) {
+    console.error(e);
+  }
+
+  try {
+    const prefs = await Api.get('/UniTalent/api/preferencias');
+    if (prefs.preferencias && prefs.preferencias.areas) {
+      document.getElementById('areas').value = prefs.preferencias.areas.join(', ');
+      document.getElementById('modalidadPref').value = prefs.preferencias.modalidad || '';
+    }
+  } catch (e) { console.error(e); }
+})();
+
+document.getElementById('perfilForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try {
+    await Api.put('/UniTalent/api/perfil', {
+      carrera: document.getElementById('carrera').value.trim(),
+      ciclo: document.getElementById('ciclo').value,
+      telefono: document.getElementById('telefono').value.trim(),
+      cv: document.getElementById('cv').value.trim()
+    });
+    showMsg('msg', 'Perfil actualizado correctamente.', 'success');
+  } catch (err) {
+    showMsg('msg', err.message, 'error');
+  }
+});
+
+document.getElementById('btnGuardarPrefs').addEventListener('click', async () => {
+  const areas = document.getElementById('areas').value.split(',').map(a => a.trim()).filter(Boolean);
+  const modalidad = document.getElementById('modalidadPref').value;
+  try {
+    await Api.post('/UniTalent/api/preferencias', { areas, modalidad });
+    showMsg('msg', 'Preferencias guardadas en MongoDB.', 'success');
+  } catch (err) {
+    showMsg('msg', err.message, 'error');
+  }
+});
+</script>
+</body>
+</html>

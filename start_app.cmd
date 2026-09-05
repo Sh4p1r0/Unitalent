@@ -1,0 +1,9 @@
+@echo off
+set "JAVA_HOME=C:\Program Files\Java\jdk-26.0.2.1"
+set "PATH=%JAVA_HOME%\bin;%PATH%"
+echo Levantando servidor Tomcat de UniTalent...
+start "UniTalent Tomcat Server" cmd.exe /k "mvnw.cmd tomcat7:run"
+echo Esperando que el servidor inicie...
+ping 127.0.0.1 -n 7 >nul
+echo Abriendo navegador...
+start http://localhost:8080/UniTalent/

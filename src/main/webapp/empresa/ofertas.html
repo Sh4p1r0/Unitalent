@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis ofertas | UniTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- TOP BAR (Mobile) -->
+  <div class="top-bar">
+    <div class="logo">
+      <div class="logo-icon">U</div>
+      UniTalent
+    </div>
+    <div class="top-bar-actions">
+      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
+        <span class="icon">🌓</span>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span>☰</span>
+      </button>
+    </div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="logo-icon">U</div>
+        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item active" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
+      <div class="nav-item" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
+        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
+      </button>
+      <div class="user-chip">
+        <div class="avatar" data-user-initial>?</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>Cargando...</div>
+          <div class="user-role">Empresa</div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
+        <span>Cerrar sesión</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile menu -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <main class="main-content">
+    <div class="page-header glass-panel">
+      <div>
+        <h1>Mis ofertas laborales</h1>
+        <p>Publica, edita o cierra tus vacantes.</p>
+      </div>
+      <button class="btn btn-primary" onclick="abrirModal()">+ Nueva oferta</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="job-list" id="jobList">
+      <p>Cargando...</p>
+    </div>
+  </main>
+</div>
+
+<!-- Modal crear/editar oferta -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <span class="modal-close" onclick="cerrarModal()">&times;</span>
+    <h2 id="modalTitulo">Nueva oferta</h2>
+    <form id="ofertaForm">
+      <input type="hidden" id="idOferta">
+      <div class="field">
+        <label>Título del puesto</label>
+        <input type="text" id="titulo" required placeholder="Ej. Desarrollador Frontend Jr.">
+      </div>
+      <div class="field">
+        <label>Descripción</label>
+        <textarea id="descripcion" rows="3" placeholder="Responsabilidades, requisitos, beneficios..."></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Carrera solicitada</label>
+          <input type="text" id="carrera" placeholder="Ej. Ingeniería de Sistemas">
+        </div>
+        <div class="field">
+          <label>Modalidad</label>
+          <select id="modalidad">
+            <option value="Presencial">Presencial</option>
+            <option value="Remoto">Remoto</option>
+            <option value="Hibrido">Híbrido</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="campoEstado" style="display:none;">
+        <label>Estado</label>
+        <select id="estado">
+          <option value="Activa">Activa</option>
+          <option value="Cerrada">Cerrada</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/api.js"></script>
+<script>
+let ofertas = [];
+
+async function cargarOfertas() {
+  ofertas = await Api.get('/UniTalent/api/ofertas');
+  const list = document.getElementById('jobList');
+
+  if (ofertas.length === 0) {
+    list.innerHTML = '<div class="empty-state">Aún no has publicado ofertas. Crea la primera con el botón "+ Nueva oferta".</div>';
+    return;
+  }
+
+  list.innerHTML = ofertas.map(o => `
+    <div class="job-card">
+      <div>
+        <h3>${escapeHtml(o.titulo)}</h3>
+        <div class="empresa">Publicado ${escapeHtml(o.fechaPublicacion)} · ${o.totalPostulantes} postulante(s)</div>
+        <div class="descripcion">${escapeHtml(o.descripcion || 'Sin descripción.')}</div>
+        <div class="tags">
+          ${o.carrera ? `<span class="tag">${escapeHtml(o.carrera)}</span>` : ''}
+          ${o.modalidad ? `<span class="tag">${escapeHtml(o.modalidad)}</span>` : ''}
+          <span class="badge badge-${o.estado === 'Activa' ? 'activa' : 'cerrada'}">${escapeHtml(o.estado)}</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline btn-small" onclick="editarOferta(${o.idOferta})">Editar</button>
+        <button class="btn btn-outline btn-small" onclick="location.href='postulantes.html?idOferta=${o.idOferta}'">Ver postulantes</button>
+        <button class="btn btn-danger btn-small" onclick="eliminarOferta(${o.idOferta})">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function abrirModal() {
+  document.getElementById('modalTitulo').textContent = 'Nueva oferta';
+  document.getElementById('ofertaForm').reset();
+  document.getElementById('idOferta').value = '';
+  document.getElementById('campoEstado').style.display = 'none';
+  document.getElementById('modal').classList.add('open');
+}
+
+function editarOferta(id) {
+  const o = ofertas.find(x => x.idOferta === id);
+  if (!o) return;
+  document.getElementById('modalTitulo').textContent = 'Editar oferta';
+  document.getElementById('idOferta').value = o.idOferta;
+  document.getElementById('titulo').value = o.titulo || '';
+  document.getElementById('descripcion').value = o.descripcion || '';
+  document.getElementById('carrera').value = o.carrera || '';
+  document.getElementById('modalidad').value = o.modalidad || 'Presencial';
+  document.getElementById('estado').value = o.estado || 'Activa';
+  document.getElementById('campoEstado').style.display = 'block';
+  document.getElementById('modal').classList.add('open');
+}
+
+function cerrarModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+async function eliminarOferta(id) {
+  if (!confirm('¿Seguro que deseas eliminar esta oferta? Esta acción no se puede deshacer.')) return;
+  try {
+    await Api.del('/UniTalent/api/ofertas?id=' + id);
+    showMsg('msg', 'Oferta eliminada.', 'success');
+    cargarOfertas();
+  } catch (e) {
+    showMsg('msg', e.message, 'error');
+  }
+}
+
+document.getElementById('ofertaForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const idOferta = document.getElementById('idOferta').value;
+  const payload = {
+    titulo: document.getElementById('titulo').value.trim(),
+    descripcion: document.getElementById('descripcion').value.trim(),
+    carrera: document.getElementById('carrera').value.trim(),
+    modalidad: document.getElementById('modalidad').value
+  };
+
+  try {
+    if (idOferta) {
+      payload.idOferta = idOferta;
+      payload.estado = document.getElementById('estado').value;
+      await Api.put('/UniTalent/api/ofertas', payload);
+      showMsg('msg', 'Oferta actualizada correctamente.', 'success');
+    } else {
+      await Api.post('/UniTalent/api/ofertas', payload);
+      showMsg('msg', 'Oferta publicada correctamente.', 'success');
+    }
+    cerrarModal();
+    cargarOfertas();
+  } catch (err) {
+    showMsg('msg', err.message, 'error');
+  }
+});
+
+(async () => {
+  const session = await requireSession('EMPRESA');
+  if (!session) return;
+  await cargarOfertas();
+  setInterval(cargarOfertas, 15000);
+})();
+</script>
+</body>
+</html>

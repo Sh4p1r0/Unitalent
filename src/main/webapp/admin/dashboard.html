@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración | UniTalent</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <div style="display:flex; gap:1rem; align-items:center;">
+    <button class="theme-toggle" title="Cambiar tema">🌓</button>
+    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
+  </div>
+</div>
+
+<div class="app-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="nav-menu">
+      <div class="nav-item active" data-tab="stats" onclick="mostrarTab('stats')">📊 Dashboard</div>
+      <div class="nav-item" data-tab="estudiantes" onclick="mostrarTab('estudiantes')">🎓 Estudiantes</div>
+      <div class="nav-item" data-tab="empresas" onclick="mostrarTab('empresas')">🏢 Empresas</div>
+      <div class="nav-item" data-tab="ofertas" onclick="mostrarTab('ofertas')">💼 Ofertas laborales</div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar" data-user-initial>?</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Administrador</div>
+        </div>
+      </div>
+      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
+      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div id="tab-stats">
+      <div class="page-header">
+        <div><h1>Panel general</h1><p style="color:var(--text-muted)">Resumen de la actividad de la plataforma.</p></div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Estudiantes registrados</div>
+          <div class="value" id="statEstudiantes">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Empresas activas</div>
+          <div class="value" id="statEmpresas">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Ofertas publicadas</div>
+          <div class="value" id="statOfertas">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Postulaciones totales</div>
+          <div class="value" id="statPostulaciones">-</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top:2rem;">
+        <div class="panel">
+          <h3 style="margin-bottom: 1rem;">Estado de Postulaciones</h3>
+          <div class="chart-container">
+            <canvas id="chartPostulaciones"></canvas>
+          </div>
+        </div>
+        <div class="panel">
+          <h3 style="margin-bottom: 1rem;">Ofertas por Modalidad</h3>
+          <div class="chart-container">
+            <canvas id="chartOfertas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-estudiantes" style="display:none;">
+      <div class="page-header"><div><h1>Estudiantes</h1><p style="color:var(--text-muted)">Perfiles de talento universitario.</p></div></div>
+      <div class="panel">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Nombre</th><th>Correo</th><th>Carrera</th><th>Ciclo</th></tr></thead>
+            <tbody id="tablaEstudiantes"><tr><td colspan="4">Cargando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-empresas" style="display:none;">
+      <div class="page-header"><div><h1>Empresas</h1><p style="color:var(--text-muted)">Organizaciones aliadas registradas en la plataforma.</p></div></div>
+      <div class="panel">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Empresa</th><th>Rubro</th><th>Representante</th><th>Correo</th></tr></thead>
+            <tbody id="tablaEmpresas"><tr><td colspan="4">Cargando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-ofertas" style="display:none;">
+      <div class="page-header"><div><h1>Ofertas laborales</h1><p style="color:var(--text-muted)">Todas las vacantes publicadas en la plataforma.</p></div></div>
+      <div class="panel">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Título</th><th>Empresa</th><th>Modalidad</th><th>Postulantes</th><th>Estado</th></tr></thead>
+            <tbody id="tablaOfertas"><tr><td colspan="5">Cargando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script>
+// Show logo on desktop sidebar
+if (window.innerWidth > 992) {
+  document.querySelector('.sidebar .logo').style.display = 'flex';
+}
+
+let chartPostulacionesInstance = null;
+let chartOfertasInstance = null;
+
+function mostrarTab(tab) {
+  document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+  document.getElementById('tab-' + tab).style.display = 'block';
+  document.querySelectorAll('.nav-item[data-tab]').forEach(el => el.classList.remove('active'));
+  document.querySelector('.nav-item[data-tab="' + tab + '"]').classList.add('active');
+  
+  // Close mobile sidebar if open
+  document.getElementById('sidebar').classList.remove('open');
+  
+  cargarTab(tab);
+}
+
+function renderCharts(statsData) {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#f8fafc' : '#0f172a';
+    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+    Chart.defaults.color = textColor;
+    Chart.defaults.font.family = 'Inter';
+
+    // Postulaciones Chart (Bar)
+    const ctxPost = document.getElementById('chartPostulaciones');
+    if (chartPostulacionesInstance) chartPostulacionesInstance.destroy();
+    
+    let postLabels = [], postData = [];
+    if (statsData.postulacionesEstado) {
+        postLabels = Object.keys(statsData.postulacionesEstado);
+        postData = Object.values(statsData.postulacionesEstado);
+    }
+    
+    chartPostulacionesInstance = new Chart(ctxPost, {
+        type: 'bar',
+        data: {
+            labels: postLabels,
+            datasets: [{
+                label: 'Postulaciones',
+                data: postData,
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(239, 68, 68, 0.7)',
+                    'rgba(245, 158, 11, 0.7)'
+                ],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: gridColor } },
+                x: { grid: { display: false } }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Ofertas Chart (Doughnut)
+    const ctxOfer = document.getElementById('chartOfertas');
+    if (chartOfertasInstance) chartOfertasInstance.destroy();
+
+    let ofLabels = [], ofData = [];
+    if (statsData.ofertasModalidad) {
+        ofLabels = Object.keys(statsData.ofertasModalidad);
+        ofData = Object.values(statsData.ofertasModalidad);
+    }
+
+    chartOfertasInstance = new Chart(ctxOfer, {
+        type: 'doughnut',
+        data: {
+            labels: ofLabels,
+            datasets: [{
+                data: ofData,
+                backgroundColor: [
+                    'rgba(139, 92, 246, 0.8)',
+                    'rgba(236, 72, 153, 0.8)',
+                    'rgba(14, 165, 233, 0.8)'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right' }
+            },
+            cutout: '70%'
+        }
+    });
+}
+
+// Watch theme changes to re-render charts
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#f8fafc' : '#0f172a';
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            
+            Chart.defaults.color = textColor;
+            if (chartPostulacionesInstance) {
+                chartPostulacionesInstance.options.scales.y.grid.color = gridColor;
+                chartPostulacionesInstance.update();
+            }
+            if (chartOfertasInstance) {
+                chartOfertasInstance.update();
+            }
+        }
+    });
+});
+observer.observe(document.documentElement, { attributes: true });
+
+async function cargarTab(tab) {
+  try {
+    if (tab === 'stats') {
+      const s = await Api.get('/UniTalent/api/admin?tipo=stats');
+      document.getElementById('statEstudiantes').textContent = s.totalEstudiantes;
+      document.getElementById('statEmpresas').textContent = s.totalEmpresas;
+      document.getElementById('statOfertas').textContent = s.totalOfertas;
+      document.getElementById('statPostulaciones').textContent = s.totalPostulaciones;
+      renderCharts(s);
+    }
+    if (tab === 'estudiantes') {
+      const lista = await Api.get('/UniTalent/api/admin?tipo=estudiantes');
+      document.getElementById('tablaEstudiantes').innerHTML = lista.length ? lista.map(e => `
+        <tr><td>${escapeHtml(e.nombre)}</td><td>${escapeHtml(e.correo)}</td><td>${escapeHtml(e.carrera || '-')}</td><td>${e.ciclo ?? '-'}</td></tr>
+      `).join('') : '<tr><td colspan="4">Sin estudiantes registrados.</td></tr>';
+    }
+    if (tab === 'empresas') {
+      const lista = await Api.get('/UniTalent/api/admin?tipo=empresas');
+      document.getElementById('tablaEmpresas').innerHTML = lista.length ? lista.map(e => `
+        <tr><td>${escapeHtml(e.nombreEmpresa)}</td><td><span class="badge" style="background:var(--sidebar-border); color:var(--text-main);">${escapeHtml(e.rubro || '-')}</span></td><td>${escapeHtml(e.nombre)}</td><td>${escapeHtml(e.correo)}</td></tr>
+      `).join('') : '<tr><td colspan="4">Sin empresas registradas.</td></tr>';
+    }
+    if (tab === 'ofertas') {
+      const lista = await Api.get('/UniTalent/api/admin?tipo=ofertas');
+      document.getElementById('tablaOfertas').innerHTML = lista.length ? lista.map(o => `
+        <tr>
+          <td><strong style="color:var(--text-main);">${escapeHtml(o.titulo)}</strong></td>
+          <td>${escapeHtml(o.nombreEmpresa)}</td>
+          <td>${escapeHtml(o.modalidad || '-')}</td>
+          <td>${o.totalPostulantes}</td>
+          <td><span class="badge ${o.estado.toLowerCase() === 'activa' ? 'activa' : 'cerrada'}">${escapeHtml(o.estado)}</span></td>
+        </tr>
+      `).join('') : '<tr><td colspan="5">Sin ofertas publicadas.</td></tr>';
+    }
+  } catch (e) { console.error(e); showToast('Error al cargar datos', 'error'); }
+}
+
+(async () => {
+  const session = await requireSession('ADMIN');
+  if (!session) return;
+  cargarTab('stats');
+  
+  // Auto-refresh data every 15 seconds
+  setInterval(() => {
+    const activeTab = document.querySelector('.nav-item.active').dataset.tab;
+    if (activeTab) cargarTab(activeTab);
+  }, 15000);
+})();
+</script>
+</body>
+</html>

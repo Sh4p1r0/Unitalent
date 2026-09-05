@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil de empresa | UniTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- TOP BAR (Mobile) -->
+  <div class="top-bar">
+    <div class="logo">
+      <div class="logo-icon">U</div>
+      UniTalent
+    </div>
+    <div class="top-bar-actions">
+      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
+        <span class="icon">🌓</span>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span>☰</span>
+      </button>
+    </div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="logo-icon">U</div>
+        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
+      <div class="nav-item active" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
+        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
+      </button>
+      <div class="user-chip">
+        <div class="avatar" data-user-initial>?</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>Cargando...</div>
+          <div class="user-role">Empresa</div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
+        <span>Cerrar sesión</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile menu -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <main class="main-content">
+    <div class="page-header glass-panel">
+      <div>
+        <h1>Perfil de la empresa</h1>
+        <p>Esta información será visible para los estudiantes que revisen tus ofertas.</p>
+      </div>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="panel" style="max-width:560px;">
+      <form id="perfilForm">
+        <div class="field">
+          <label>Representante</label>
+          <input type="text" id="nombre" disabled>
+        </div>
+        <div class="field">
+          <label>Correo</label>
+          <input type="email" id="correo" disabled>
+        </div>
+        <div class="field">
+          <label>Nombre de la empresa</label>
+          <input type="text" id="nombreEmpresa" required>
+        </div>
+        <div class="field">
+          <label>Rubro</label>
+          <input type="text" id="rubro">
+        </div>
+        <div class="field">
+          <label>Descripción</label>
+          <textarea id="descripcion" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/api.js"></script>
+<script>
+(async () => {
+  const session = await requireSession('EMPRESA');
+  if (!session) return;
+
+  const perfil = await Api.get('/UniTalent/api/perfil');
+  document.getElementById('nombre').value = perfil.nombre || '';
+  document.getElementById('correo').value = perfil.correo || '';
+  document.getElementById('nombreEmpresa').value = perfil.nombreEmpresa || '';
+  document.getElementById('rubro').value = perfil.rubro || '';
+  document.getElementById('descripcion').value = perfil.descripcion || '';
+})();
+
+document.getElementById('perfilForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try {
+    await Api.put('/UniTalent/api/perfil', {
+      nombreEmpresa: document.getElementById('nombreEmpresa').value.trim(),
+      rubro: document.getElementById('rubro').value.trim(),
+      descripcion: document.getElementById('descripcion').value.trim()
+    });
+    showMsg('msg', 'Perfil actualizado correctamente.', 'success');
+  } catch (err) {
+    showMsg('msg', err.message, 'error');
+  }
+});
+</script>
+</body>
+</html>

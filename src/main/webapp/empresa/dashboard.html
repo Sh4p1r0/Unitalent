@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de empresa | UniTalent</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <div style="display:flex; gap:1rem; align-items:center;">
+    <button class="theme-toggle" title="Cambiar tema">🌓</button>
+    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
+  </div>
+</div>
+
+<div class="app-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="nav-menu">
+      <div class="nav-item active" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
+      <div class="nav-item" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar" data-user-initial>?</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Empresa</div>
+        </div>
+      </div>
+      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
+      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>Panel general</h1>
+        <p style="color:var(--text-muted);">Resumen de la actividad de tu empresa en UniTalent.</p>
+      </div>
+      <button class="btn btn-primary" onclick="location.href='ofertas.html'">+ Nueva oferta</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Ofertas publicadas</div>
+        <div class="value" id="statOfertas">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Ofertas activas</div>
+        <div class="value" id="statActivas">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Postulantes totales</div>
+        <div class="value" id="statPostulantes">-</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-bottom: 1.5rem;">Últimos postulantes</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Estudiante</th><th>Oferta</th><th>Fecha</th><th>Estado</th></tr></thead>
+          <tbody id="tabla"><tr><td colspan="4">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script>
+if (window.innerWidth > 992) {
+  document.querySelector('.sidebar .logo').style.display = 'flex';
+}
+
+async function cargar() {
+  try {
+    const [ofertas, postulantes] = await Promise.all([
+      Api.get('/UniTalent/api/ofertas'),
+      Api.get('/UniTalent/api/postulaciones')
+    ]);
+
+    document.getElementById('statOfertas').textContent = ofertas.length;
+    document.getElementById('statActivas').textContent = ofertas.filter(o => o.estado === 'Activa').length;
+    document.getElementById('statPostulantes').textContent = postulantes.length;
+
+    const tbody = document.getElementById('tabla');
+    if (postulantes.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:2rem; color:var(--text-muted);">Aún no has recibido postulaciones.</td></tr>';
+    } else {
+      tbody.innerHTML = postulantes.slice(0, 8).map(p => `
+        <tr>
+          <td><strong style="color:var(--text-main);">${escapeHtml(p.nombreEstudiante)}</strong></td>
+          <td>${escapeHtml(p.tituloOferta)}</td>
+          <td>${escapeHtml(p.fechaPostulacion)}</td>
+          <td><span class="badge ${badgeClass(p.estado)}">${escapeHtml(p.estado)}</span></td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) { 
+      console.error(e); 
+  }
+}
+
+(async () => {
+  const session = await requireSession('EMPRESA');
+  if (!session) return;
+  await cargar();
+  setInterval(cargar, 15000);
+})();
+
+function badgeClass(estado) {
+  if (estado === 'Aceptada') return 'aceptada';
+  if (estado === 'Rechazada') return 'rechazada';
+  if (estado === 'En Proceso') return 'proceso';
+  return 'enviada';
+}
+</script>
+</body>
+</html>

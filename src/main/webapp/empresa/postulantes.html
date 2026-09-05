@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Postulantes | UniTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- TOP BAR (Mobile) -->
+  <div class="top-bar">
+    <div class="logo">
+      <div class="logo-icon">U</div>
+      UniTalent
+    </div>
+    <div class="top-bar-actions">
+      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
+        <span class="icon">🌓</span>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span>☰</span>
+      </button>
+    </div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="logo-icon">U</div>
+        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
+      <div class="nav-item active" onclick="location.href='postulantes.html'">👥 Postulantes</div>
+      <div class="nav-item" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: transition: all var(--transition-normal);">
+        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
+      </button>
+      <div class="user-chip">
+        <div class="avatar" data-user-initial>?</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>Cargando...</div>
+          <div class="user-role">Empresa</div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
+        <span>Cerrar sesión</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile menu -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <main class="main-content">
+    <div class="page-header glass-panel">
+      <div>
+        <h1 id="titulo">Postulantes</h1>
+        <p>Revisa los perfiles y actualiza el estado de cada postulación.</p>
+      </div>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="panel">
+      <table>
+        <thead><tr><th>Estudiante</th><th>Correo</th><th>Carrera</th><th>CV</th><th>Oferta</th><th>Fecha</th><th>Estado</th><th></th></tr></thead>
+        <tbody id="tabla"><tr><td colspan="8">Cargando...</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/api.js"></script>
+<script>
+async function cargar() {
+  const params = new URLSearchParams(location.search);
+  const idOferta = params.get('idOferta');
+
+  const url = idOferta
+    ? '/UniTalent/api/postulaciones?idOferta=' + idOferta
+    : '/UniTalent/api/postulaciones';
+
+  if (idOferta) document.getElementById('titulo').textContent = 'Postulantes de esta oferta';
+
+  const lista = await Api.get(url);
+  const tbody = document.getElementById('tabla');
+
+  if (lista.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8">Aún no hay postulantes.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = lista.map(p => `
+    <tr>
+      <td>${escapeHtml(p.nombreEstudiante)}</td>
+      <td>${escapeHtml(p.correoEstudiante)}</td>
+      <td>${escapeHtml(p.carreraEstudiante || '-')}</td>
+      <td>${p.cvEstudiante ? `<a href="${escapeHtml(p.cvEstudiante)}" target="_blank">Ver CV</a>` : '-'}</td>
+      <td>${escapeHtml(p.tituloOferta || '-')}</td>
+      <td>${escapeHtml(p.fechaPostulacion)}</td>
+      <td><span class="badge badge-${badgeClass(p.estado)}">${escapeHtml(p.estado)}</span></td>
+      <td>
+        <select onchange="cambiarEstado(${p.idPostulacion}, this.value)" style="padding:6px 8px; border-radius:6px; border:1px solid var(--gris-borde);">
+          <option value="">Cambiar estado...</option>
+          <option value="En Proceso">En Proceso</option>
+          <option value="Aceptada">Aceptada</option>
+          <option value="Rechazada">Rechazada</option>
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function cambiarEstado(idPostulacion, estado) {
+  if (!estado) return;
+  try {
+    await Api.put('/UniTalent/api/postulaciones', { idPostulacion, estado });
+    showMsg('msg', 'Estado actualizado a "' + estado + '".', 'success');
+    cargar();
+  } catch (e) {
+    showMsg('msg', e.message, 'error');
+  }
+}
+
+function badgeClass(estado) {
+  if (estado === 'Aceptada') return 'aceptada';
+  if (estado === 'Rechazada') return 'rechazada';
+  if (estado === 'En Proceso') return 'proceso';
+  return 'enviada';
+}
+
+(async () => {
+  const session = await requireSession('EMPRESA');
+  if (!session) return;
+  await cargar();
+  setInterval(cargar, 15000);
+})();
+</script>
+</body>
+</html>

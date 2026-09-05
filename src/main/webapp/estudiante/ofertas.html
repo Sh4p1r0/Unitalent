@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buscar ofertas | UniTalent</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <div style="display:flex; gap:1rem; align-items:center;">
+    <button class="theme-toggle" title="Cambiar tema">🌓</button>
+    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
+  </div>
+</div>
+
+<div class="app-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="nav-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
+      <div class="nav-item active" onclick="location.href='ofertas.html'">🔎 Buscar ofertas</div>
+      <div class="nav-item" onclick="location.href='postulaciones.html'">📄 Mis postulaciones</div>
+      <div class="nav-item" onclick="location.href='perfil.html'">👤 Mi perfil</div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar" data-user-initial>?</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Estudiante</div>
+        </div>
+      </div>
+      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
+      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>Buscar ofertas laborales</h1>
+        <p style="color:var(--text-muted);">Filtra por palabra clave, carrera o modalidad y postula en un clic.</p>
+      </div>
+    </div>
+
+    <div class="panel" style="display:flex; gap:1rem; flex-wrap:wrap; padding:1rem 1.5rem; margin-bottom:2rem; align-items:center;">
+      <div class="field" style="margin-bottom:0; flex:1; min-width:200px;">
+        <input type="text" id="q" placeholder="Buscar por título o descripción...">
+      </div>
+      <div class="field" style="margin-bottom:0; flex:1; min-width:200px;">
+        <input type="text" id="carrera" placeholder="Carrera (ej. Sistemas)">
+      </div>
+      <div class="field" style="margin-bottom:0; width:200px;">
+        <select id="modalidad">
+          <option value="">Todas las modalidades</option>
+          <option value="Presencial">Presencial</option>
+          <option value="Remoto">Remoto</option>
+          <option value="Hibrido">Híbrido</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btnBuscar" style="height:46px;">Buscar</button>
+    </div>
+
+    <div class="job-grid" id="jobList">
+      <p style="color:var(--text-muted); grid-column:1/-1; text-align:center;">Cargando ofertas...</p>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script>
+if (window.innerWidth > 992) {
+  document.querySelector('.sidebar .logo').style.display = 'flex';
+}
+
+let miPerfil = null;
+let misPostulaciones = [];
+
+async function cargarOfertas() {
+  const q = document.getElementById('q').value.trim();
+  const carrera = document.getElementById('carrera').value.trim();
+  const modalidad = document.getElementById('modalidad').value;
+
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (carrera) params.set('carrera', carrera);
+  if (modalidad) params.set('modalidad', modalidad);
+
+  const ofertas = await Api.get('/UniTalent/api/ofertas?' + params.toString());
+  const list = document.getElementById('jobList');
+
+  if (ofertas.length === 0) {
+    list.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted); background:var(--panel-bg); border-radius:var(--radius-lg); border:1px solid var(--panel-border);">No se encontraron ofertas con esos criterios.</div>';
+    return;
+  }
+
+  const idsPostulados = new Set(misPostulaciones.map(p => p.idOferta));
+
+  list.innerHTML = ofertas.map(o => `
+    <div class="job-card">
+      <h3 style="color:var(--text-main);">${escapeHtml(o.titulo)}</h3>
+      <div class="company">${escapeHtml(o.nombreEmpresa)} · Publicado ${escapeHtml(o.fechaPublicacion)}</div>
+      <div class="desc">${escapeHtml(o.descripcion || 'Sin descripción adicional.')}</div>
+      <div class="tags">
+        ${o.carrera ? `<span class="tag">${escapeHtml(o.carrera)}</span>` : ''}
+        ${o.modalidad ? `<span class="tag">${escapeHtml(o.modalidad)}</span>` : ''}
+        <span class="tag">${o.totalPostulantes} postulante(s)</span>
+      </div>
+      <div class="actions">
+        ${idsPostulados.has(o.idOferta)
+          ? '<span class="badge enviada" style="width:100%; justify-content:center; padding:0.75rem;">Ya postulaste</span>'
+          : `<button class="btn btn-primary btn-block" onclick="postular(${o.idOferta}, this)">Postular ahora</button>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function postular(idOferta, btn) {
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  try {
+    await Api.post('/UniTalent/api/postulaciones', { idOferta });
+    showToast('¡Postulación enviada correctamente!', 'success');
+    misPostulaciones = await Api.get('/UniTalent/api/postulaciones');
+    cargarOfertas();
+  } catch (e) {
+    showToast(e.message, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Postular ahora';
+  }
+}
+
+(async () => {
+  const session = await requireSession('ESTUDIANTE');
+  if (!session) return;
+
+  misPostulaciones = await Api.get('/UniTalent/api/postulaciones');
+  await cargarOfertas();
+
+  document.getElementById('btnBuscar').addEventListener('click', cargarOfertas);
+  document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') cargarOfertas(); });
+  
+  setInterval(async () => {
+    misPostulaciones = await Api.get('/UniTalent/api/postulaciones');
+    cargarOfertas();
+  }, 15000);
+})();
+</script>
+</body>
+</html>
