@@ -6,7 +6,7 @@
 ![Tomcat](https://img.shields.io/badge/Apache_Tomcat-F8DC75?style=for-the-badge&logo=apache-tomcat&logoColor=black)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**UniTalent** es una solución tecnológica web diseñada para conectar de manera eficiente a estudiantes universitarios con empresas empleadoras, facilitando la inserción al mercado laboral preprofesional y profesional mediante una arquitectura de persistencia políglota (**SQL + NoSQL**).
+**UniTalent** Es una solución tecnológica web diseñada para conectar de manera eficiente a estudiantes universitarios con empresas empleadoras, facilitando la inserción al mercado laboral preprofesional y profesional mediante una arquitectura de persistencia políglota (**SQL + NoSQL**).
 
 ---
 
