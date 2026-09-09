@@ -8,7 +8,8 @@ import java.util.Properties;
 
 /**
  * Maneja la conexion a la base de datos relacional PostgreSQL.
- * Las credenciales reales se cargan desde src/main/resources/db.properties (ignorado por Git).
+ * Las credenciales reales se cargan desde src/main/resources/db.properties
+ * (ignorado por Git).
  */
 public class PostgresConnection {
 

@@ -3,7 +3,7 @@ const Api = {
   async request(method, url, body) {
     const opts = {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       credentials: 'same-origin' // envía la cookie de sesión (JSESSIONID)
     };
     if (body !== undefined) opts.body = JSON.stringify(body);
@@ -53,9 +53,33 @@ function showMsg(elId, text, type) {
   el.className = 'msg ' + type;
 }
 
+function fixEncoding(str) {
+  if (!str) return '';
+  return str.toString()
+    .replace(/Ingenier[^\s]+ de Sistemas/gi, 'Ingeniería de Sistemas')
+    .replace(/ÃƒÂƒÃ‚Â­/g, 'í')
+    .replace(/ÃƒÂ­/g, 'í')
+    .replace(/Ã‚Â/g, '')
+    .replace(/ÃÂ\s*ÃÂ/g, '')
+    .replace(/ÃÂ/g, '')
+    .replace(/Ã¡/g, 'á')
+    .replace(/Ã©/g, 'é')
+    .replace(/Ã­/g, 'í')
+    .replace(/Ã\u00ad/g, 'í')
+    .replace(/Ã³/g, 'ó')
+    .replace(/Ãº/g, 'ú')
+    .replace(/Ã±/g, 'ñ')
+    .replace(/Ã/g, 'Á')
+    .replace(/Ã‰/g, 'É')
+    .replace(/Ã/g, 'Í')
+    .replace(/Ã“/g, 'Ó')
+    .replace(/Ãš/g, 'Ú')
+    .replace(/Ã‘/g, 'Ñ');
+}
+
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
-  return str.toString()
+  return fixEncoding(str.toString())
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
