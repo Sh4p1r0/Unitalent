@@ -1,132 +1,147 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi perfil | UniTalent</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</div>
+
 <div class="app-layout">
 
-  <!-- TOP BAR (Mobile) -->
-  <div class="top-bar">
-    <div class="logo">
-      <div class="logo-icon">U</div>
-      UniTalent
-    </div>
-    <div class="top-bar-actions">
-      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
-        <span class="icon">🌓</span>
-      </button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span>☰</span>
-      </button>
-    </div>
-  </div>
-
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <div class="logo-icon">U</div>
-        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Plataforma</div>
+    <div class="nav-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Buscar ofertas</span>
+      </div>
+      <div class="nav-item" onclick="location.href='postulaciones.html'">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Mis postulaciones</span>
+      </div>
+      <div class="nav-item active" onclick="location.href='perfil.html'">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Mi perfil</span>
       </div>
     </div>
-    <div class="sidebar-menu">
-      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
-      <div class="nav-item" onclick="location.href='ofertas.html'">🔎 Buscar ofertas</div>
-      <div class="nav-item" onclick="location.href='postulaciones.html'">📄 Mis postulaciones</div>
-      <div class="nav-item active" onclick="location.href='perfil.html'">👤 Mi perfil</div>
-    </div>
+    
     <div class="sidebar-footer">
-      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
-        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
-      </button>
-      <div class="user-chip">
+      <div class="user-info">
         <div class="avatar" data-user-initial>?</div>
-        <div class="user-info">
-          <div class="user-name" data-user-name>Cargando...</div>
-          <div class="user-role">Estudiante</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Estudiante</div>
         </div>
       </div>
-      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
-        <span>Cerrar sesión</span>
-      </div>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Overlay for mobile menu -->
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-
   <main class="main-content">
-    <div class="page-header glass-panel">
+    <div class="page-header">
       <div>
         <h1>Mi perfil profesional</h1>
-        <p>Mantén tu información actualizada para que las empresas te encuentren mejor.</p>
+        <p>Gestiona tu informacion academica y tus preferencias laborales registradas.</p>
       </div>
     </div>
 
-    <div id="msg" class="msg"></div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: var(--spacing-xl); max-width: 1000px;">
+      
+      <div class="panel">
+        <h3 style="margin-bottom: var(--spacing-md); font-size: var(--text-heading-4);">Datos academicos</h3>
+        <p style="color: var(--color-steel); font-size: var(--text-body-sm); margin-bottom: var(--spacing-xl);">
+          Informacion visible para las empresas en tus postulaciones.
+        </p>
 
-    <div class="panel" style="max-width:560px;">
-      <h2>Datos académicos</h2>
-      <form id="perfilForm">
-        <div class="field">
-          <label>Nombre</label>
-          <input type="text" id="nombre" disabled>
-        </div>
-        <div class="field">
-          <label>Correo</label>
-          <input type="email" id="correo" disabled>
-        </div>
-        <div class="field-row">
+        <form id="perfilForm">
           <div class="field">
-            <label>Carrera</label>
-            <input type="text" id="carrera" placeholder="Ej. Ingeniería de Sistemas">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" disabled style="background-color: var(--color-surface-soft); color: var(--color-steel);">
           </div>
-          <div class="field">
-            <label>Ciclo</label>
-            <input type="number" id="ciclo" min="1" max="12">
-          </div>
-        </div>
-        <div class="field">
-          <label>Teléfono</label>
-          <input type="text" id="telefono" placeholder="Ej. +51 999 999 999">
-        </div>
-        <div class="field">
-          <label>CV (enlace o nombre de archivo)</label>
-          <input type="text" id="cv" placeholder="Ej. https://drive.google.com/... o cv_juan_perez.pdf">
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-      </form>
-    </div>
 
-    <div class="panel" style="max-width:560px;">
-      <h2>Preferencias laborales</h2>
-      <p style="color:var(--texto-suave); font-size:0.85rem; margin-top:-8px;">
-        Esta información se guarda en MongoDB y ayuda a personalizar tu búsqueda.
-      </p>
-      <div class="field">
-        <label>Áreas de interés (separadas por coma)</label>
-        <input type="text" id="areas" placeholder="Ej. Desarrollo Web, Base de Datos">
+          <div class="field">
+            <label for="correo">Correo institucional</label>
+            <input type="email" id="correo" disabled style="background-color: var(--color-surface-soft); color: var(--color-steel);">
+          </div>
+
+          <div class="field-row">
+            <div class="field" style="flex: 2;">
+              <label for="carrera">Carrera profesional</label>
+              <input type="text" id="carrera" placeholder="Ej. Ingenieria de Sistemas">
+            </div>
+            <div class="field" style="flex: 1;">
+              <label for="ciclo">Ciclo actual</label>
+              <input type="number" id="ciclo" min="1" max="12" placeholder="8">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="telefono">Telefono de contacto</label>
+            <input type="text" id="telefono" placeholder="Ej. +51 987 654 321">
+          </div>
+
+          <div class="field">
+            <label for="cv">Curriculum Vitae (enlace o archivo)</label>
+            <input type="text" id="cv" placeholder="Ej. https://drive.google.com/... o cv_documento.pdf">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: var(--spacing-sm);">Guardar datos</button>
+        </form>
       </div>
-      <div class="field">
-        <label>Modalidad preferida</label>
-        <select id="modalidadPref">
-          <option value="">Sin preferencia</option>
-          <option value="Presencial">Presencial</option>
-          <option value="Remoto">Remoto</option>
-          <option value="Hibrido">Híbrido</option>
-        </select>
+
+      <div class="panel">
+        <h3 style="margin-bottom: var(--spacing-md); font-size: var(--text-heading-4);">Preferencias laborales</h3>
+        <p style="color: var(--color-steel); font-size: var(--text-body-sm); margin-bottom: var(--spacing-xl);">
+          Parametros sincronizados en MongoDB para recomendaciones personalizadas.
+        </p>
+
+        <form id="prefsForm">
+          <div class="field">
+            <label for="areas">Areas de interes (separadas por coma)</label>
+            <input type="text" id="areas" placeholder="Ej. Desarrollo Web, Cloud Computing, Datos">
+          </div>
+
+          <div class="field">
+            <label for="modalidadPref">Modalidad preferida</label>
+            <select id="modalidadPref">
+              <option value="">Sin preferencia especifica</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Remoto">Remoto</option>
+              <option value="Hibrido">Hibrido</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-outline" style="margin-top: var(--spacing-sm);">Actualizar preferencias</button>
+        </form>
       </div>
-      <button class="btn btn-outline" id="btnGuardarPrefs">Guardar preferencias</button>
+
     </div>
   </main>
 </div>
 
-<script src="../js/app.js"></script>
 <script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
 <script>
 (async () => {
   const session = await requireSession('ESTUDIANTE');
@@ -150,7 +165,9 @@
       document.getElementById('areas').value = prefs.preferencias.areas.join(', ');
       document.getElementById('modalidadPref').value = prefs.preferencias.modalidad || '';
     }
-  } catch (e) { console.error(e); }
+  } catch (e) {
+    console.error(e);
+  }
 })();
 
 document.getElementById('perfilForm').addEventListener('submit', async (e) => {
@@ -162,20 +179,21 @@ document.getElementById('perfilForm').addEventListener('submit', async (e) => {
       telefono: document.getElementById('telefono').value.trim(),
       cv: document.getElementById('cv').value.trim()
     });
-    showMsg('msg', 'Perfil actualizado correctamente.', 'success');
+    showToast('Perfil actualizado correctamente', 'success');
   } catch (err) {
-    showMsg('msg', err.message, 'error');
+    showToast(err.message, 'error');
   }
 });
 
-document.getElementById('btnGuardarPrefs').addEventListener('click', async () => {
+document.getElementById('prefsForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
   const areas = document.getElementById('areas').value.split(',').map(a => a.trim()).filter(Boolean);
   const modalidad = document.getElementById('modalidadPref').value;
   try {
     await Api.post('/UniTalent/api/preferencias', { areas, modalidad });
-    showMsg('msg', 'Preferencias guardadas en MongoDB.', 'success');
+    showToast('Preferencias sincronizadas en MongoDB', 'success');
   } catch (err) {
-    showMsg('msg', err.message, 'error');
+    showToast(err.message, 'error');
   }
 });
 </script>

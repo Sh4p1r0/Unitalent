@@ -1,77 +1,74 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mis ofertas | UniTalent</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</div>
+
 <div class="app-layout">
 
-  <!-- TOP BAR (Mobile) -->
-  <div class="top-bar">
-    <div class="logo">
-      <div class="logo-icon">U</div>
-      UniTalent
-    </div>
-    <div class="top-bar-actions">
-      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
-        <span class="icon">🌓</span>
-      </button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span>☰</span>
-      </button>
-    </div>
-  </div>
-
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <div class="logo-icon">U</div>
-        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Empresa</div>
+    <div class="nav-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item active" onclick="location.href='ofertas.html'">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Mis ofertas</span>
+      </div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Postulantes</span>
+      </div>
+      <div class="nav-item" onclick="location.href='perfil.html'">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line></svg>
+        <span>Perfil corporativo</span>
       </div>
     </div>
-    <div class="sidebar-menu">
-      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
-      <div class="nav-item active" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
-      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
-      <div class="nav-item" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
-    </div>
+    
     <div class="sidebar-footer">
-      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
-        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
-      </button>
-      <div class="user-chip">
+      <div class="user-info">
         <div class="avatar" data-user-initial>?</div>
-        <div class="user-info">
-          <div class="user-name" data-user-name>Cargando...</div>
-          <div class="user-role">Empresa</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Empresa aliada</div>
         </div>
       </div>
-      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
-        <span>Cerrar sesión</span>
-      </div>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Overlay for mobile menu -->
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-
   <main class="main-content">
-    <div class="page-header glass-panel">
+    <div class="page-header">
       <div>
         <h1>Mis ofertas laborales</h1>
-        <p>Publica, edita o cierra tus vacantes.</p>
+        <p>Publica convocatorias, gestiona vacantes activas y revisa postulantes.</p>
       </div>
-      <button class="btn btn-primary" onclick="abrirModal()">+ Nueva oferta</button>
+      <button class="btn btn-primary" onclick="abrirModal()">Nueva oferta</button>
     </div>
 
-    <div id="msg" class="msg"></div>
-
-    <div class="job-list" id="jobList">
-      <p>Cargando...</p>
+    <div class="job-grid" id="jobList">
+      <div class="empty-state">Cargando ofertas publicadas...</div>
     </div>
   </main>
 </div>
@@ -79,46 +76,48 @@
 <!-- Modal crear/editar oferta -->
 <div class="modal-overlay" id="modal">
   <div class="modal-box">
-    <span class="modal-close" onclick="cerrarModal()">&times;</span>
-    <h2 id="modalTitulo">Nueva oferta</h2>
+    <div class="modal-header">
+      <h3 id="modalTitulo">Nueva oferta</h3>
+      <button type="button" class="modal-close" onclick="cerrarModal()">&times;</button>
+    </div>
     <form id="ofertaForm">
       <input type="hidden" id="idOferta">
       <div class="field">
-        <label>Título del puesto</label>
+        <label for="titulo">Titulo del puesto</label>
         <input type="text" id="titulo" required placeholder="Ej. Desarrollador Frontend Jr.">
       </div>
       <div class="field">
-        <label>Descripción</label>
-        <textarea id="descripcion" rows="3" placeholder="Responsabilidades, requisitos, beneficios..."></textarea>
+        <label for="descripcion">Descripcion del puesto</label>
+        <textarea id="descripcion" rows="3" placeholder="Responsabilidades, requisitos y perfil profesional esperado..."></textarea>
       </div>
       <div class="field-row">
-        <div class="field">
-          <label>Carrera solicitada</label>
-          <input type="text" id="carrera" placeholder="Ej. Ingeniería de Sistemas">
+        <div class="field" style="flex: 1;">
+          <label for="carrera">Carrera solicitada</label>
+          <input type="text" id="carrera" placeholder="Ej. Ingenieria de Sistemas">
         </div>
-        <div class="field">
-          <label>Modalidad</label>
+        <div class="field" style="width: 150px;">
+          <label for="modalidad">Modalidad</label>
           <select id="modalidad">
             <option value="Presencial">Presencial</option>
             <option value="Remoto">Remoto</option>
-            <option value="Hibrido">Híbrido</option>
+            <option value="Hibrido">Hibrido</option>
           </select>
         </div>
       </div>
       <div class="field" id="campoEstado" style="display:none;">
-        <label>Estado</label>
+        <label for="estado">Estado de la convocatoria</label>
         <select id="estado">
           <option value="Activa">Activa</option>
           <option value="Cerrada">Cerrada</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: var(--spacing-md);">Guardar oferta</button>
     </form>
   </div>
 </div>
 
-<script src="../js/app.js"></script>
 <script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
 <script>
 let ofertas = [];
 
@@ -127,26 +126,24 @@ async function cargarOfertas() {
   const list = document.getElementById('jobList');
 
   if (ofertas.length === 0) {
-    list.innerHTML = '<div class="empty-state">Aún no has publicado ofertas. Crea la primera con el botón "+ Nueva oferta".</div>';
+    list.innerHTML = '<div class="empty-state">Aun no has publicado ofertas. Crea tu primera convocatoria con el boton "Nueva oferta".</div>';
     return;
   }
 
   list.innerHTML = ofertas.map(o => `
     <div class="job-card">
-      <div>
-        <h3>${escapeHtml(o.titulo)}</h3>
-        <div class="empresa">Publicado ${escapeHtml(o.fechaPublicacion)} · ${o.totalPostulantes} postulante(s)</div>
-        <div class="descripcion">${escapeHtml(o.descripcion || 'Sin descripción.')}</div>
-        <div class="tags">
-          ${o.carrera ? `<span class="tag">${escapeHtml(o.carrera)}</span>` : ''}
-          ${o.modalidad ? `<span class="tag">${escapeHtml(o.modalidad)}</span>` : ''}
-          <span class="badge badge-${o.estado === 'Activa' ? 'activa' : 'cerrada'}">${escapeHtml(o.estado)}</span>
-        </div>
+      <h3>${escapeHtml(o.titulo)}</h3>
+      <div class="company">Publicado ${escapeHtml(o.fechaPublicacion)} · ${o.totalPostulantes} postulante(s)</div>
+      <div class="desc">${escapeHtml(o.descripcion || 'Sin descripcion adicional.')}</div>
+      <div class="tags">
+        ${o.carrera ? `<span class="tag">${escapeHtml(o.carrera)}</span>` : ''}
+        ${o.modalidad ? `<span class="tag">${escapeHtml(o.modalidad)}</span>` : ''}
+        <span class="badge ${o.estado === 'Activa' ? 'activa' : 'cerrada'}">${escapeHtml(o.estado)}</span>
       </div>
       <div class="actions">
-        <button class="btn btn-outline btn-small" onclick="editarOferta(${o.idOferta})">Editar</button>
-        <button class="btn btn-outline btn-small" onclick="location.href='postulantes.html?idOferta=${o.idOferta}'">Ver postulantes</button>
-        <button class="btn btn-danger btn-small" onclick="eliminarOferta(${o.idOferta})">Eliminar</button>
+        <button class="btn btn-outline btn-sm" onclick="editarOferta(${o.idOferta})">Editar</button>
+        <button class="btn btn-outline btn-sm" onclick="location.href='postulantes.html?idOferta=${o.idOferta}'">Postulantes</button>
+        <button class="btn btn-danger btn-sm" onclick="eliminarOferta(${o.idOferta})">Eliminar</button>
       </div>
     </div>
   `).join('');
@@ -179,13 +176,13 @@ function cerrarModal() {
 }
 
 async function eliminarOferta(id) {
-  if (!confirm('¿Seguro que deseas eliminar esta oferta? Esta acción no se puede deshacer.')) return;
+  if (!confirm('Deseas eliminar esta oferta? Esta accion no se puede deshacer.')) return;
   try {
     await Api.del('/UniTalent/api/ofertas?id=' + id);
-    showMsg('msg', 'Oferta eliminada.', 'success');
+    showToast('Oferta eliminada correctamente', 'success');
     cargarOfertas();
   } catch (e) {
-    showMsg('msg', e.message, 'error');
+    showToast(e.message, 'error');
   }
 }
 
@@ -204,15 +201,15 @@ document.getElementById('ofertaForm').addEventListener('submit', async (e) => {
       payload.idOferta = idOferta;
       payload.estado = document.getElementById('estado').value;
       await Api.put('/UniTalent/api/ofertas', payload);
-      showMsg('msg', 'Oferta actualizada correctamente.', 'success');
+      showToast('Oferta actualizada correctamente', 'success');
     } else {
       await Api.post('/UniTalent/api/ofertas', payload);
-      showMsg('msg', 'Oferta publicada correctamente.', 'success');
+      showToast('Oferta publicada correctamente', 'success');
     }
     cerrarModal();
     cargarOfertas();
   } catch (err) {
-    showMsg('msg', err.message, 'error');
+    showToast(err.message, 'error');
   }
 });
 

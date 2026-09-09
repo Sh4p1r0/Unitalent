@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +10,37 @@
 
 <div class="mobile-topbar">
   <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
-  <div style="display:flex; gap:1rem; align-items:center;">
-    <button class="theme-toggle" title="Cambiar tema">🌓</button>
-    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
-  </div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
 </div>
 
 <div class="app-layout">
 
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Empresa</div>
     <div class="nav-menu">
-      <div class="nav-item active" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
-      <div class="nav-item" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
-      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
-      <div class="nav-item" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
+      <div class="nav-item active" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Mis ofertas</span>
+      </div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Postulantes</span>
+      </div>
+      <div class="nav-item" onclick="location.href='perfil.html'">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line></svg>
+        <span>Perfil corporativo</span>
+      </div>
     </div>
     
     <div class="sidebar-footer">
@@ -32,21 +48,23 @@
         <div class="avatar" data-user-initial>?</div>
         <div>
           <div style="font-weight:600;" data-user-name>Cargando...</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Empresa</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Empresa aliada</div>
         </div>
       </div>
-      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
-      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="page-header">
       <div>
-        <h1>Panel general</h1>
-        <p style="color:var(--text-muted);">Resumen de la actividad de tu empresa en UniTalent.</p>
+        <h1>Panel general de empresa</h1>
+        <p>Monitoreo y trazabilidad de ofertas y postulantes en tiempo real.</p>
       </div>
-      <button class="btn btn-primary" onclick="location.href='ofertas.html'">+ Nueva oferta</button>
+      <button class="btn btn-primary" onclick="location.href='ofertas.html'">Publicar oferta</button>
     </div>
 
     <div class="stats-grid">
@@ -59,17 +77,26 @@
         <div class="value" id="statActivas">-</div>
       </div>
       <div class="stat-card">
-        <div class="label">Postulantes totales</div>
+        <div class="label">Postulantes registrados</div>
         <div class="value" id="statPostulantes">-</div>
       </div>
     </div>
 
     <div class="panel">
-      <h3 style="margin-bottom: 1.5rem;">Últimos postulantes</h3>
+      <h3 style="margin-bottom: var(--spacing-lg);">Postulaciones recientes</h3>
       <div class="table-responsive">
         <table>
-          <thead><tr><th>Estudiante</th><th>Oferta</th><th>Fecha</th><th>Estado</th></tr></thead>
-          <tbody id="tabla"><tr><td colspan="4">Cargando...</td></tr></tbody>
+          <thead>
+            <tr>
+              <th>Estudiante</th>
+              <th>Oferta</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tabla">
+            <tr><td colspan="4" style="color: var(--color-steel);">Cargando postulaciones...</td></tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -79,10 +106,6 @@
 <script src="../js/api.js"></script>
 <script src="../js/app.js"></script>
 <script>
-if (window.innerWidth > 992) {
-  document.querySelector('.sidebar .logo').style.display = 'flex';
-}
-
 async function cargar() {
   try {
     const [ofertas, postulantes] = await Promise.all([
@@ -96,19 +119,19 @@ async function cargar() {
 
     const tbody = document.getElementById('tabla');
     if (postulantes.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:2rem; color:var(--text-muted);">Aún no has recibido postulaciones.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: var(--spacing-xxl); color: var(--color-steel);">Aun no has recibido postulaciones en tus convocatorias.</td></tr>';
     } else {
       tbody.innerHTML = postulantes.slice(0, 8).map(p => `
         <tr>
-          <td><strong style="color:var(--text-main);">${escapeHtml(p.nombreEstudiante)}</strong></td>
-          <td>${escapeHtml(p.tituloOferta)}</td>
-          <td>${escapeHtml(p.fechaPostulacion)}</td>
+          <td><strong style="color: var(--color-ink);">${escapeHtml(p.nombreEstudiante)}</strong></td>
+          <td style="color: var(--color-steel);">${escapeHtml(p.tituloOferta)}</td>
+          <td style="font-family: var(--font-family-2); font-size: var(--text-code-sm); color: var(--color-steel);">${escapeHtml(p.fechaPostulacion)}</td>
           <td><span class="badge ${badgeClass(p.estado)}">${escapeHtml(p.estado)}</span></td>
         </tr>
       `).join('');
     }
   } catch (e) { 
-      console.error(e); 
+    console.error(e); 
   }
 }
 

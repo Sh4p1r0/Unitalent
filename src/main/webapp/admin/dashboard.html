@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de administración | UniTalent</title>
+<title>Panel de administracion | UniTalent</title>
 <link rel="stylesheet" href="../css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -11,21 +11,37 @@
 
 <div class="mobile-topbar">
   <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
-  <div style="display:flex; gap:1rem; align-items:center;">
-    <button class="theme-toggle" title="Cambiar tema">🌓</button>
-    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
-  </div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
 </div>
 
 <div class="app-layout">
 
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Administracion</div>
     <div class="nav-menu">
-      <div class="nav-item active" data-tab="stats" onclick="mostrarTab('stats')">📊 Dashboard</div>
-      <div class="nav-item" data-tab="estudiantes" onclick="mostrarTab('estudiantes')">🎓 Estudiantes</div>
-      <div class="nav-item" data-tab="empresas" onclick="mostrarTab('empresas')">🏢 Empresas</div>
-      <div class="nav-item" data-tab="ofertas" onclick="mostrarTab('ofertas')">💼 Ofertas laborales</div>
+      <div class="nav-item active" data-tab="stats" onclick="mostrarTab('stats')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Metricas</span>
+      </div>
+      <div class="nav-item" data-tab="estudiantes" onclick="mostrarTab('estudiantes')">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+        <span>Estudiantes</span>
+      </div>
+      <div class="nav-item" data-tab="empresas" onclick="mostrarTab('empresas')">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line></svg>
+        <span>Empresas</span>
+      </div>
+      <div class="nav-item" data-tab="ofertas" onclick="mostrarTab('ofertas')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Convocatorias</span>
+      </div>
     </div>
     
     <div class="sidebar-footer">
@@ -33,19 +49,25 @@
         <div class="avatar" data-user-initial>?</div>
         <div>
           <div style="font-weight:600;" data-user-name>Cargando...</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Administrador</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Administrador</div>
         </div>
       </div>
-      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
-      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
   <main class="main-content">
 
+    <!-- Tab Metricas -->
     <div id="tab-stats">
       <div class="page-header">
-        <div><h1>Panel general</h1><p style="color:var(--text-muted)">Resumen de la actividad de la plataforma.</p></div>
+        <div>
+          <h1>Panel de administracion</h1>
+          <p>Supervision global del ecosistema y analisis operativo de UniTalent.</p>
+        </div>
       </div>
       
       <div class="stats-grid">
@@ -54,11 +76,11 @@
           <div class="value" id="statEstudiantes">-</div>
         </div>
         <div class="stat-card">
-          <div class="label">Empresas activas</div>
+          <div class="label">Empresas aliadas</div>
           <div class="value" id="statEmpresas">-</div>
         </div>
         <div class="stat-card">
-          <div class="label">Ofertas publicadas</div>
+          <div class="label">Convocatorias publicadas</div>
           <div class="value" id="statOfertas">-</div>
         </div>
         <div class="stat-card">
@@ -67,15 +89,15 @@
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top:2rem;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: var(--spacing-xl); margin-top: var(--spacing-xl);">
         <div class="panel">
-          <h3 style="margin-bottom: 1rem;">Estado de Postulaciones</h3>
+          <h3 style="margin-bottom: var(--spacing-md); font-size: var(--text-heading-5);">Distribucion por estado de postulacion</h3>
           <div class="chart-container">
             <canvas id="chartPostulaciones"></canvas>
           </div>
         </div>
         <div class="panel">
-          <h3 style="margin-bottom: 1rem;">Ofertas por Modalidad</h3>
+          <h3 style="margin-bottom: var(--spacing-md); font-size: var(--text-heading-5);">Ofertas laborales por modalidad</h3>
           <div class="chart-container">
             <canvas id="chartOfertas"></canvas>
           </div>
@@ -83,37 +105,83 @@
       </div>
     </div>
 
+    <!-- Tab Estudiantes -->
     <div id="tab-estudiantes" style="display:none;">
-      <div class="page-header"><div><h1>Estudiantes</h1><p style="color:var(--text-muted)">Perfiles de talento universitario.</p></div></div>
+      <div class="page-header">
+        <div>
+          <h1>Estudiantes registrados</h1>
+          <p>Directorio de talento universitario en la plataforma.</p>
+        </div>
+      </div>
       <div class="panel">
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Nombre</th><th>Correo</th><th>Carrera</th><th>Ciclo</th></tr></thead>
-            <tbody id="tablaEstudiantes"><tr><td colspan="4">Cargando...</td></tr></tbody>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo electronico</th>
+                <th>Carrera profesional</th>
+                <th>Ciclo</th>
+              </tr>
+            </thead>
+            <tbody id="tablaEstudiantes">
+              <tr><td colspan="4" style="color: var(--color-steel);">Cargando registros...</td></tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
+    <!-- Tab Empresas -->
     <div id="tab-empresas" style="display:none;">
-      <div class="page-header"><div><h1>Empresas</h1><p style="color:var(--text-muted)">Organizaciones aliadas registradas en la plataforma.</p></div></div>
+      <div class="page-header">
+        <div>
+          <h1>Empresas aliadas</h1>
+          <p>Organizaciones registradas con capacidad de publicar convocatorias.</p>
+        </div>
+      </div>
       <div class="panel">
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Empresa</th><th>Rubro</th><th>Representante</th><th>Correo</th></tr></thead>
-            <tbody id="tablaEmpresas"><tr><td colspan="4">Cargando...</td></tr></tbody>
+            <thead>
+              <tr>
+                <th>Razon social</th>
+                <th>Rubro</th>
+                <th>Representante</th>
+                <th>Correo de contacto</th>
+              </tr>
+            </thead>
+            <tbody id="tablaEmpresas">
+              <tr><td colspan="4" style="color: var(--color-steel);">Cargando registros...</td></tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
+    <!-- Tab Ofertas -->
     <div id="tab-ofertas" style="display:none;">
-      <div class="page-header"><div><h1>Ofertas laborales</h1><p style="color:var(--text-muted)">Todas las vacantes publicadas en la plataforma.</p></div></div>
+      <div class="page-header">
+        <div>
+          <h1>Convocatorias laborales</h1>
+          <p>Supervision de todas las vacantes publicadas en UniTalent.</p>
+        </div>
+      </div>
       <div class="panel">
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Título</th><th>Empresa</th><th>Modalidad</th><th>Postulantes</th><th>Estado</th></tr></thead>
-            <tbody id="tablaOfertas"><tr><td colspan="5">Cargando...</td></tr></tbody>
+            <thead>
+              <tr>
+                <th>Puesto</th>
+                <th>Empresa</th>
+                <th>Modalidad</th>
+                <th>Postulantes</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tablaOfertas">
+              <tr><td colspan="5" style="color: var(--color-steel);">Cargando convocatorias...</td></tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -125,11 +193,6 @@
 <script src="../js/api.js"></script>
 <script src="../js/app.js"></script>
 <script>
-// Show logo on desktop sidebar
-if (window.innerWidth > 992) {
-  document.querySelector('.sidebar .logo').style.display = 'flex';
-}
-
 let chartPostulacionesInstance = null;
 let chartOfertasInstance = null;
 
@@ -139,21 +202,18 @@ function mostrarTab(tab) {
   document.querySelectorAll('.nav-item[data-tab]').forEach(el => el.classList.remove('active'));
   document.querySelector('.nav-item[data-tab="' + tab + '"]').classList.add('active');
   
-  // Close mobile sidebar if open
-  document.getElementById('sidebar').classList.remove('open');
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) sidebar.classList.remove('open');
   
   cargarTab(tab);
 }
 
 function renderCharts(statsData) {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const textColor = isDark ? '#f8fafc' : '#0f172a';
-    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    Chart.defaults.color = '#5a5a5c';
+    Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+    Chart.defaults.font.size = 12;
 
-    Chart.defaults.color = textColor;
-    Chart.defaults.font.family = 'Inter';
-
-    // Postulaciones Chart (Bar)
+    // Postulaciones Bar Chart (Mintlify Palette)
     const ctxPost = document.getElementById('chartPostulaciones');
     if (chartPostulacionesInstance) chartPostulacionesInstance.destroy();
     
@@ -171,20 +231,27 @@ function renderCharts(statsData) {
                 label: 'Postulaciones',
                 data: postData,
                 backgroundColor: [
-                    'rgba(59, 130, 246, 0.7)',
-                    'rgba(16, 185, 129, 0.7)',
-                    'rgba(239, 68, 68, 0.7)',
-                    'rgba(245, 158, 11, 0.7)'
+                    'rgba(55, 114, 207, 0.85)',   // brand tag blue
+                    'rgba(0, 212, 164, 0.85)',    // brand green
+                    'rgba(212, 86, 86, 0.85)',    // brand error red
+                    'rgba(195, 125, 13, 0.85)'    // brand warn amber
                 ],
-                borderRadius: 4
+                borderRadius: 6,
+                borderSkipped: false
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { beginAtZero: true, grid: { color: gridColor } },
-                x: { grid: { display: false } }
+                y: { 
+                  beginAtZero: true, 
+                  grid: { color: '#e5e5e5' },
+                  ticks: { precision: 0 }
+                },
+                x: { 
+                  grid: { display: false }
+                }
             },
             plugins: {
                 legend: { display: false }
@@ -192,7 +259,7 @@ function renderCharts(statsData) {
         }
     });
 
-    // Ofertas Chart (Doughnut)
+    // Ofertas Doughnut Chart (Mintlify Palette)
     const ctxOfer = document.getElementById('chartOfertas');
     if (chartOfertasInstance) chartOfertasInstance.destroy();
 
@@ -209,44 +276,27 @@ function renderCharts(statsData) {
             datasets: [{
                 data: ofData,
                 backgroundColor: [
-                    'rgba(139, 92, 246, 0.8)',
-                    'rgba(236, 72, 153, 0.8)',
-                    'rgba(14, 165, 233, 0.8)'
+                    '#0a0a0a',   // Mintlify primary dark
+                    '#00d4a4',   // Mintlify brand green
+                    '#3772cf'    // Mintlify tag blue
                 ],
-                borderWidth: 0
+                borderWidth: 2,
+                borderColor: '#ffffff'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { position: 'right' }
+                legend: { 
+                  position: 'bottom',
+                  labels: { boxWidth: 12, padding: 16 }
+                }
             },
-            cutout: '70%'
+            cutout: '68%'
         }
     });
 }
-
-// Watch theme changes to re-render charts
-const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-theme') {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const textColor = isDark ? '#f8fafc' : '#0f172a';
-            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
-            
-            Chart.defaults.color = textColor;
-            if (chartPostulacionesInstance) {
-                chartPostulacionesInstance.options.scales.y.grid.color = gridColor;
-                chartPostulacionesInstance.update();
-            }
-            if (chartOfertasInstance) {
-                chartOfertasInstance.update();
-            }
-        }
-    });
-});
-observer.observe(document.documentElement, { attributes: true });
 
 async function cargarTab(tab) {
   try {
@@ -261,28 +311,41 @@ async function cargarTab(tab) {
     if (tab === 'estudiantes') {
       const lista = await Api.get('/UniTalent/api/admin?tipo=estudiantes');
       document.getElementById('tablaEstudiantes').innerHTML = lista.length ? lista.map(e => `
-        <tr><td>${escapeHtml(e.nombre)}</td><td>${escapeHtml(e.correo)}</td><td>${escapeHtml(e.carrera || '-')}</td><td>${e.ciclo ?? '-'}</td></tr>
-      `).join('') : '<tr><td colspan="4">Sin estudiantes registrados.</td></tr>';
+        <tr>
+          <td><strong style="color: var(--color-ink);">${escapeHtml(e.nombre)}</strong></td>
+          <td style="color: var(--color-steel);">${escapeHtml(e.correo)}</td>
+          <td style="color: var(--color-steel);">${escapeHtml(e.carrera || '-')}</td>
+          <td style="font-family: var(--font-family-2); font-size: var(--text-code-sm);">${e.ciclo ?? '-'}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="4" style="text-align:center; padding: var(--spacing-xxl); color: var(--color-steel);">Sin estudiantes registrados.</td></tr>';
     }
     if (tab === 'empresas') {
       const lista = await Api.get('/UniTalent/api/admin?tipo=empresas');
       document.getElementById('tablaEmpresas').innerHTML = lista.length ? lista.map(e => `
-        <tr><td>${escapeHtml(e.nombreEmpresa)}</td><td><span class="badge" style="background:var(--sidebar-border); color:var(--text-main);">${escapeHtml(e.rubro || '-')}</span></td><td>${escapeHtml(e.nombre)}</td><td>${escapeHtml(e.correo)}</td></tr>
-      `).join('') : '<tr><td colspan="4">Sin empresas registradas.</td></tr>';
+        <tr>
+          <td><strong style="color: var(--color-ink);">${escapeHtml(e.nombreEmpresa)}</strong></td>
+          <td><span class="tag">${escapeHtml(e.rubro || '-')}</span></td>
+          <td style="color: var(--color-steel);">${escapeHtml(e.nombre)}</td>
+          <td style="color: var(--color-steel);">${escapeHtml(e.correo)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="4" style="text-align:center; padding: var(--spacing-xxl); color: var(--color-steel);">Sin empresas registradas.</td></tr>';
     }
     if (tab === 'ofertas') {
       const lista = await Api.get('/UniTalent/api/admin?tipo=ofertas');
       document.getElementById('tablaOfertas').innerHTML = lista.length ? lista.map(o => `
         <tr>
-          <td><strong style="color:var(--text-main);">${escapeHtml(o.titulo)}</strong></td>
-          <td>${escapeHtml(o.nombreEmpresa)}</td>
-          <td>${escapeHtml(o.modalidad || '-')}</td>
-          <td>${o.totalPostulantes}</td>
+          <td><strong style="color: var(--color-ink);">${escapeHtml(o.titulo)}</strong></td>
+          <td style="color: var(--color-steel);">${escapeHtml(o.nombreEmpresa)}</td>
+          <td><span class="tag">${escapeHtml(o.modalidad || '-')}</span></td>
+          <td style="font-family: var(--font-family-2); font-size: var(--text-code-sm);">${o.totalPostulantes}</td>
           <td><span class="badge ${o.estado.toLowerCase() === 'activa' ? 'activa' : 'cerrada'}">${escapeHtml(o.estado)}</span></td>
         </tr>
-      `).join('') : '<tr><td colspan="5">Sin ofertas publicadas.</td></tr>';
+      `).join('') : '<tr><td colspan="5" style="text-align:center; padding: var(--spacing-xxl); color: var(--color-steel);">Sin convocatorias publicadas.</td></tr>';
     }
-  } catch (e) { console.error(e); showToast('Error al cargar datos', 'error'); }
+  } catch (e) {
+    console.error(e);
+    showToast('Error al cargar datos administrativos', 'error');
+  }
 }
 
 (async () => {
@@ -290,7 +353,6 @@ async function cargarTab(tab) {
   if (!session) return;
   cargarTab('stats');
   
-  // Auto-refresh data every 15 seconds
   setInterval(() => {
     const activeTab = document.querySelector('.nav-item.active').dataset.tab;
     if (activeTab) cargarTab(activeTab);

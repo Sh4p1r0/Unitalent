@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +10,37 @@
 
 <div class="mobile-topbar">
   <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
-  <div style="display:flex; gap:1rem; align-items:center;">
-    <button class="theme-toggle" title="Cambiar tema">🌓</button>
-    <button class="menu-toggle" id="mobile-menu-toggle">☰</button>
-  </div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
 </div>
 
 <div class="app-layout">
 
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="margin-bottom:2rem; display:none;"><span class="logo-icon">U</span> UniTalent</div>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Plataforma</div>
     <div class="nav-menu">
-      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
-      <div class="nav-item active" onclick="location.href='ofertas.html'">🔎 Buscar ofertas</div>
-      <div class="nav-item" onclick="location.href='postulaciones.html'">📄 Mis postulaciones</div>
-      <div class="nav-item" onclick="location.href='perfil.html'">👤 Mi perfil</div>
+      <div class="nav-item" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item active" onclick="location.href='ofertas.html'">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Buscar ofertas</span>
+      </div>
+      <div class="nav-item" onclick="location.href='postulaciones.html'">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Mis postulaciones</span>
+      </div>
+      <div class="nav-item" onclick="location.href='perfil.html'">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Mi perfil</span>
+      </div>
     </div>
     
     <div class="sidebar-footer">
@@ -32,11 +48,13 @@
         <div class="avatar" data-user-initial>?</div>
         <div>
           <div style="font-weight:600;" data-user-name>Cargando...</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Estudiante</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Estudiante</div>
         </div>
       </div>
-      <button onclick="toggleTheme()" class="btn btn-outline btn-block btn-sm" style="margin-bottom: 0.75rem;">🌓 Cambiar Tema</button>
-      <button onclick="logout()" class="btn btn-primary btn-block btn-sm">↩ Cerrar sesión</button>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
@@ -44,30 +62,30 @@
     <div class="page-header">
       <div>
         <h1>Buscar ofertas laborales</h1>
-        <p style="color:var(--text-muted);">Filtra por palabra clave, carrera o modalidad y postula en un clic.</p>
+        <p>Filtra por palabra clave, carrera o modalidad y postula en un clic.</p>
       </div>
     </div>
 
-    <div class="panel" style="display:flex; gap:1rem; flex-wrap:wrap; padding:1rem 1.5rem; margin-bottom:2rem; align-items:center;">
-      <div class="field" style="margin-bottom:0; flex:1; min-width:200px;">
-        <input type="text" id="q" placeholder="Buscar por título o descripción...">
+    <div class="panel" style="display:flex; gap: var(--spacing-md); flex-wrap:wrap; padding: var(--spacing-lg) var(--spacing-xl); margin-bottom: var(--spacing-xxl); align-items:center;">
+      <div class="field" style="margin-bottom:0; flex:1; min-width:220px;">
+        <input type="text" id="q" placeholder="Buscar por puesto o descripcion...">
       </div>
       <div class="field" style="margin-bottom:0; flex:1; min-width:200px;">
         <input type="text" id="carrera" placeholder="Carrera (ej. Sistemas)">
       </div>
-      <div class="field" style="margin-bottom:0; width:200px;">
+      <div class="field" style="margin-bottom:0; width:180px;">
         <select id="modalidad">
           <option value="">Todas las modalidades</option>
           <option value="Presencial">Presencial</option>
           <option value="Remoto">Remoto</option>
-          <option value="Hibrido">Híbrido</option>
+          <option value="Hibrido">Hibrido</option>
         </select>
       </div>
-      <button class="btn btn-primary" id="btnBuscar" style="height:46px;">Buscar</button>
+      <button class="btn btn-primary" id="btnBuscar" style="height:40px;">Buscar</button>
     </div>
 
     <div class="job-grid" id="jobList">
-      <p style="color:var(--text-muted); grid-column:1/-1; text-align:center;">Cargando ofertas...</p>
+      <div class="empty-state">Cargando ofertas disponibles...</div>
     </div>
   </main>
 </div>
@@ -75,11 +93,6 @@
 <script src="../js/api.js"></script>
 <script src="../js/app.js"></script>
 <script>
-if (window.innerWidth > 992) {
-  document.querySelector('.sidebar .logo').style.display = 'flex';
-}
-
-let miPerfil = null;
 let misPostulaciones = [];
 
 async function cargarOfertas() {
@@ -96,7 +109,7 @@ async function cargarOfertas() {
   const list = document.getElementById('jobList');
 
   if (ofertas.length === 0) {
-    list.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted); background:var(--panel-bg); border-radius:var(--radius-lg); border:1px solid var(--panel-border);">No se encontraron ofertas con esos criterios.</div>';
+    list.innerHTML = '<div class="empty-state">No se encontraron convocatorias con esos criterios de busqueda.</div>';
     return;
   }
 
@@ -104,9 +117,9 @@ async function cargarOfertas() {
 
   list.innerHTML = ofertas.map(o => `
     <div class="job-card">
-      <h3 style="color:var(--text-main);">${escapeHtml(o.titulo)}</h3>
+      <h3>${escapeHtml(o.titulo)}</h3>
       <div class="company">${escapeHtml(o.nombreEmpresa)} · Publicado ${escapeHtml(o.fechaPublicacion)}</div>
-      <div class="desc">${escapeHtml(o.descripcion || 'Sin descripción adicional.')}</div>
+      <div class="desc">${escapeHtml(o.descripcion || 'Sin descripcion adicional especificada.')}</div>
       <div class="tags">
         ${o.carrera ? `<span class="tag">${escapeHtml(o.carrera)}</span>` : ''}
         ${o.modalidad ? `<span class="tag">${escapeHtml(o.modalidad)}</span>` : ''}
@@ -114,7 +127,7 @@ async function cargarOfertas() {
       </div>
       <div class="actions">
         ${idsPostulados.has(o.idOferta)
-          ? '<span class="badge enviada" style="width:100%; justify-content:center; padding:0.75rem;">Ya postulaste</span>'
+          ? '<span class="badge enviada" style="width:100%; justify-content:center; padding:8px;">Postulacion registrada</span>'
           : `<button class="btn btn-primary btn-block" onclick="postular(${o.idOferta}, this)">Postular ahora</button>`}
       </div>
     </div>
@@ -126,7 +139,7 @@ async function postular(idOferta, btn) {
   btn.textContent = 'Enviando...';
   try {
     await Api.post('/UniTalent/api/postulaciones', { idOferta });
-    showToast('¡Postulación enviada correctamente!', 'success');
+    showToast('Postulacion enviada correctamente', 'success');
     misPostulaciones = await Api.get('/UniTalent/api/postulaciones');
     cargarOfertas();
   } catch (e) {

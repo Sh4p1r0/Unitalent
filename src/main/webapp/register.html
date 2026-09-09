@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,79 +11,80 @@
 
   <div class="auth-panel">
     <div class="auth-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
-        <div class="logo"><span class="logo-icon">U</span> UniTalent</div>
-        <button class="theme-toggle" title="Cambiar tema">🌓</button>
+      <div class="logo">
+        <span class="logo-icon">U</span>
+        <span>UniTalent</span>
       </div>
-      <h2 style="margin-bottom:0.5rem; font-size:1.75rem;">Crea tu cuenta</h2>
-      <p style="color:var(--text-muted); margin-bottom:2rem; font-size:0.9rem;">
-        Elige el tipo de cuenta que quieres crear.
+      
+      <h2 style="margin-bottom: var(--spacing-xs); font-size: var(--text-heading-3);">Crear cuenta</h2>
+      <p style="color: var(--color-steel); margin-bottom: var(--spacing-xl); font-size: var(--text-body-sm);">
+        Selecciona tu modalidad de participacion en la red UniTalent.
       </p>
 
       <div class="role-selector">
-        <div class="role-btn active" data-rol="ESTUDIANTE">Estudiante</div>
-        <div class="role-btn" data-rol="EMPRESA">Empresa</div>
+        <button type="button" class="role-btn active" data-rol="ESTUDIANTE">Estudiante</button>
+        <button type="button" class="role-btn" data-rol="EMPRESA">Empresa</button>
       </div>
 
       <form id="registerForm">
         <div class="field">
-          <label id="labelNombre">Nombre completo</label>
+          <label id="labelNombre" for="nombre">Nombre completo</label>
           <input type="text" id="nombre" required placeholder="Ej. Valeria Ramos">
         </div>
 
         <div class="field">
-          <label>Correo electrónico</label>
+          <label for="correo">Correo electronico</label>
           <input type="email" id="correo" required placeholder="correo@ejemplo.com">
         </div>
 
         <div class="field">
-          <label>Contraseña</label>
-          <input type="password" id="contrasena" required minlength="6" placeholder="Mínimo 6 caracteres">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" required minlength="6" placeholder="Minimo 6 caracteres">
         </div>
 
-        <!-- Campos específicos de estudiante -->
+        <!-- Campos estudiante -->
         <div id="camposEstudiante">
-          <div style="display:flex; gap:1rem;">
+          <div style="display:flex; gap: var(--spacing-md);">
             <div class="field" style="flex:1;">
-              <label>Carrera</label>
-              <input type="text" id="carrera" placeholder="Ej. Ingeniería de Sistemas">
+              <label for="carrera">Carrera profesional</label>
+              <input type="text" id="carrera" placeholder="Ej. Ingenieria de Sistemas">
             </div>
-            <div class="field" style="width:100px;">
-              <label>Ciclo</label>
-              <input type="number" id="ciclo" min="1" max="12" placeholder="Ej. 8">
+            <div class="field" style="width: 100px;">
+              <label for="ciclo">Ciclo</label>
+              <input type="number" id="ciclo" min="1" max="12" placeholder="8">
             </div>
           </div>
         </div>
 
-        <!-- Campos específicos de empresa -->
+        <!-- Campos empresa -->
         <div id="camposEmpresa" style="display:none;">
           <div class="field">
-            <label>Nombre de la empresa</label>
+            <label for="nombreEmpresa">Nombre de la empresa</label>
             <input type="text" id="nombreEmpresa" placeholder="Ej. TechNova Solutions">
           </div>
           <div class="field">
-            <label>Rubro</label>
-            <input type="text" id="rubro" placeholder="Ej. Tecnología">
+            <label for="rubro">Rubro o sector</label>
+            <input type="text" id="rubro" placeholder="Ej. Tecnologia y Software">
           </div>
           <div class="field">
-            <label>Descripción</label>
-            <textarea id="descripcion" rows="3" placeholder="Breve descripción de la empresa"></textarea>
+            <label for="descripcion">Descripcion corporativa</label>
+            <textarea id="descripcion" rows="3" placeholder="Breve perfil y enfoque de la organizacion"></textarea>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Crear cuenta →</button>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: var(--spacing-sm);">Completar registro</button>
       </form>
 
-      <p style="text-align:center; margin-top:1.5rem; color:var(--text-muted); font-size:0.9rem;">
-        ¿Ya tienes cuenta? <a href="login.html" style="color:var(--accent-color); font-weight:600;">Inicia sesión</a>
+      <p style="text-align: center; margin-top: var(--spacing-xl); color: var(--color-steel); font-size: var(--text-caption);">
+        Ya tienes cuenta? <a href="login.html" style="color: var(--color-ink); font-weight: 600; text-decoration: underline;">Inicia sesion</a>
       </p>
     </div>
   </div>
 
   <div class="auth-hero">
-    <span style="background:rgba(255,255,255,0.15); width:fit-content; padding:0.25rem 1rem; border-radius:9999px; font-size:0.875rem; margin-bottom:1.5rem; display:inline-block;">Únete a UniTalent</span>
-    <h1>Conecta tu talento con las mejores oportunidades.</h1>
-    <p>Regístrate como estudiante para postular a prácticas y empleos, o como empresa para publicar tus vacantes y encontrar al candidato ideal.</p>
+    <span class="auth-hero-tag">Registro Oficial</span>
+    <h1>Vinculacion estructurada con el sector productivo.</h1>
+    <p>Accede a convocatorias activas, valida competencias academicas y gestiona postulaciones laborales con trazabilidad completa.</p>
   </div>
 
 </div>
@@ -128,7 +129,9 @@
     try {
       const data = await Api.post('/UniTalent/api/register', payload);
       showToast(data.message, 'success');
-      setTimeout(() => window.location.href = 'login.html', 1200);
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1500);
     } catch (err) {
       showToast(err.message, 'error');
     }

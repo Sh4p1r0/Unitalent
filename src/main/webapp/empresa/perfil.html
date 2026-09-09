@@ -1,104 +1,106 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Perfil de empresa | UniTalent</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+<div class="mobile-topbar">
+  <div class="logo" style="margin-bottom:0;"><span class="logo-icon">U</span> UniTalent</div>
+  <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</div>
+
 <div class="app-layout">
 
-  <!-- TOP BAR (Mobile) -->
-  <div class="top-bar">
-    <div class="logo">
-      <div class="logo-icon">U</div>
-      UniTalent
-    </div>
-    <div class="top-bar-actions">
-      <button class="theme-toggle" id="themeToggleMobile" title="Cambiar tema">
-        <span class="icon">🌓</span>
-      </button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span>☰</span>
-      </button>
-    </div>
-  </div>
-
   <aside class="sidebar" id="sidebar">
-    <div class="logo" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 1.5rem 0 1.5rem; margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <div class="logo-icon">U</div>
-        <span style="font-size: 1.25rem; font-weight: 700; color: var(--color-text);">UniTalent</span>
+    <div class="logo">
+      <span class="logo-icon">U</span>
+      <span>UniTalent</span>
+    </div>
+
+    <div class="sidebar-section-header">Empresa</div>
+    <div class="nav-menu">
+      <div class="nav-item" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="location.href='ofertas.html'">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Mis ofertas</span>
+      </div>
+      <div class="nav-item" onclick="location.href='postulantes.html'">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Postulantes</span>
+      </div>
+      <div class="nav-item active" onclick="location.href='perfil.html'">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line></svg>
+        <span>Perfil corporativo</span>
       </div>
     </div>
-    <div class="sidebar-menu">
-      <div class="nav-item" onclick="location.href='dashboard.html'">🏠 Dashboard</div>
-      <div class="nav-item" onclick="location.href='ofertas.html'">💼 Mis ofertas</div>
-      <div class="nav-item" onclick="location.href='postulantes.html'">👥 Postulantes</div>
-      <div class="nav-item active" onclick="location.href='perfil.html'">🏢 Perfil de empresa</div>
-    </div>
+    
     <div class="sidebar-footer">
-      <button class="theme-toggle" id="themeToggleDesktop" title="Cambiar tema" style="width: 100%; justify-content: center; margin-bottom: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); color: var(--color-text); cursor: pointer; transition: all var(--transition-normal);">
-        <span class="icon">🌓</span> <span style="font-size: 0.875rem; font-weight: 500;">Cambiar tema</span>
-      </button>
-      <div class="user-chip">
+      <div class="user-info">
         <div class="avatar" data-user-initial>?</div>
-        <div class="user-info">
-          <div class="user-name" data-user-name>Cargando...</div>
-          <div class="user-role">Empresa</div>
+        <div>
+          <div style="font-weight:600;" data-user-name>Cargando...</div>
+          <div style="font-size: var(--text-micro); color: var(--color-steel);">Empresa aliada</div>
         </div>
       </div>
-      <div class="nav-item" onclick="logout()" style="margin-top:8px; color: var(--color-danger); justify-content: center;">
-        <span>Cerrar sesión</span>
-      </div>
+      <button onclick="logout()" class="btn btn-outline btn-block btn-sm">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar sesion</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Overlay for mobile menu -->
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-
   <main class="main-content">
-    <div class="page-header glass-panel">
+    <div class="page-header">
       <div>
         <h1>Perfil de la empresa</h1>
-        <p>Esta información será visible para los estudiantes que revisen tus ofertas.</p>
+        <p>Datos corporativos visibles para los postulantes en la red de UniTalent.</p>
       </div>
     </div>
 
-    <div id="msg" class="msg"></div>
-
-    <div class="panel" style="max-width:560px;">
+    <div class="panel" style="max-width: 580px;">
       <form id="perfilForm">
         <div class="field">
-          <label>Representante</label>
-          <input type="text" id="nombre" disabled>
+          <label for="nombre">Representante legal</label>
+          <input type="text" id="nombre" disabled style="background-color: var(--color-surface-soft); color: var(--color-steel);">
         </div>
+
         <div class="field">
-          <label>Correo</label>
-          <input type="email" id="correo" disabled>
+          <label for="correo">Correo corporativo</label>
+          <input type="email" id="correo" disabled style="background-color: var(--color-surface-soft); color: var(--color-steel);">
         </div>
+
         <div class="field">
-          <label>Nombre de la empresa</label>
-          <input type="text" id="nombreEmpresa" required>
+          <label for="nombreEmpresa">Razon social o nombre comercial</label>
+          <input type="text" id="nombreEmpresa" required placeholder="Ej. TechNova Solutions SAC">
         </div>
+
         <div class="field">
-          <label>Rubro</label>
-          <input type="text" id="rubro">
+          <label for="rubro">Rubro o industria</label>
+          <input type="text" id="rubro" placeholder="Ej. Desarrollo de Software y Servicios Cloud">
         </div>
+
         <div class="field">
-          <label>Descripción</label>
-          <textarea id="descripcion" rows="4"></textarea>
+          <label for="descripcion">Descripcion o presentacion de la organizacion</label>
+          <textarea id="descripcion" rows="4" placeholder="Breve introduccion de proyectos, cultura y tecnologias usadas..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: var(--spacing-sm);">Guardar perfil</button>
       </form>
     </div>
   </main>
 </div>
 
-<script src="../js/app.js"></script>
 <script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
 <script>
 (async () => {
   const session = await requireSession('EMPRESA');
@@ -120,9 +122,9 @@ document.getElementById('perfilForm').addEventListener('submit', async (e) => {
       rubro: document.getElementById('rubro').value.trim(),
       descripcion: document.getElementById('descripcion').value.trim()
     });
-    showMsg('msg', 'Perfil actualizado correctamente.', 'success');
+    showToast('Perfil de empresa actualizado correctamente', 'success');
   } catch (err) {
-    showMsg('msg', err.message, 'error');
+    showToast(err.message, 'error');
   }
 });
 </script>

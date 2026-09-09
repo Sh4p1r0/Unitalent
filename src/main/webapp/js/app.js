@@ -1,21 +1,6 @@
-// Global App Logic for UniTalent
+// Global App Logic for UniTalent - Mintlify Design System
 
-// Initialize Theme
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-}
-initTheme();
-
-// Toggle Theme Function
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-}
-
-// Custom Toast Notifications
+// Custom Toast Notifications (Zero emojis, developer-grade indicators)
 function showToast(message, type = 'success') {
     let container = document.getElementById('toast-container');
     if (!container) {
@@ -27,9 +12,7 @@ function showToast(message, type = 'success') {
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
-    const icon = type === 'success' ? '✅' : '❌';
-    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    toast.innerHTML = `<span class="toast-indicator"></span> <span>${message}</span>`;
     
     container.appendChild(toast);
     
@@ -39,13 +22,11 @@ function showToast(message, type = 'success') {
     // Remove after 3s
     setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(() => toast.remove(), 250);
     }, 3000);
 }
 
-// Override default fetch error handling globally if possible, or just export toast
 window.showToast = showToast;
-window.toggleTheme = toggleTheme;
 
 // Mobile Menu Toggle
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,10 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.toggle('open');
         });
     }
-
-    // Attach theme toggle to buttons if they exist
-    const themeBtns = document.querySelectorAll('.theme-toggle');
-    themeBtns.forEach(btn => {
-        btn.addEventListener('click', toggleTheme);
-    });
 });
