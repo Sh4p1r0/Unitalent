@@ -16,8 +16,10 @@ import java.util.Map;
 
 /**
  * Demuestra el uso de MongoDB (NoSQL) desde la app:
- * GET  /api/preferencias           -> preferencias guardadas + historial de búsquedas del estudiante
- * POST /api/preferencias           -> guarda/actualiza preferencias (body: areas[], modalidad)
+ * GET /api/preferencias -> preferencias guardadas + historial de búsquedas del
+ * estudiante
+ * POST /api/preferencias -> guarda/actualiza preferencias (body: areas[],
+ * modalidad)
  */
 @WebServlet("/api/preferencias")
 public class PreferenciasServlet extends HttpServlet {
@@ -39,8 +41,7 @@ public class PreferenciasServlet extends HttpServlet {
 
             Map<String, Object> out = Map.of(
                     "preferencias", prefs != null ? prefs : Map.of(),
-                    "historial", historial
-            );
+                    "historial", historial);
             JsonUtil.sendJson(resp, 200, out);
         } catch (Exception e) {
             e.printStackTrace();
